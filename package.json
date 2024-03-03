@@ -4,12 +4,16 @@
   "description": "Node.js web crawler",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node --watch -r ts-node/register src/index.ts",
+    "build": "tsc",
     "test": "jest"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "jest": "^29.7.0"
+    "@types/node": "^20.11.24",
+    "jest": "^29.7.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   }
 }
