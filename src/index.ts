@@ -1,15 +1,22 @@
-import { normaliseURL, getURLsFromHTML } from "./crawl";
+// import { normaliseURL, getURLsFromHTML } from "./crawl";
 
-normaliseURL("https://blog.boot.dev/path/");
+function main() {
+  const args = process.argv;
+  console.log(args.length);
 
-getURLsFromHTML(
-  `
-  <html>
-      <body>
-          <a href="https://blog.boot.dev"><span>Go to Boot.dev</span></a>
-          <a href="/path"><span>Go to Boot.dev</span></a>
-      </body>
-  </html>
-`,
-  "https://blog.boot.dev",
-);
+  if (args.length < 3) {
+    console.error("Please provide a target URL, i.e. https://www.google.com");
+    process.exit();
+  }
+
+  if (args.length > 3) {
+    console.error("Too many arguments given");
+    process.exit();
+  }
+
+  const targetUrl = args[2];
+
+  console.log(`Crawling started on URL: ${targetUrl}`);
+}
+
+main();
