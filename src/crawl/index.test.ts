@@ -2,6 +2,11 @@ import { describe, expect, test } from "@jest/globals";
 import { normaliseURL, getURLsFromHTML } from "./index";
 
 describe("normaliseURL function", () => {
+  // TODO:
+  // protocol
+  // slash
+  // capitals
+  // http
   test("should handle valid URLs without throwing errors", () => {
     const validUrl = "https://blog.boot.dev/path/";
     expect(normaliseURL(validUrl)).not.toBeNull();
@@ -21,6 +26,11 @@ describe("normaliseURL function", () => {
 });
 
 describe("getURLsFromHTML function", () => {
+  // TODO:
+  // absolute
+  // relative
+  // both
+  // handle error
   test("should append baseUrl to relative links", () => {
     const linkHtml = "<a href='/path'>Link</a>";
     const baseUrl = "https://blog.boot.dev";
