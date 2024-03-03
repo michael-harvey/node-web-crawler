@@ -3,7 +3,8 @@ import { normaliseURL, getURLsFromHTML } from "./index";
 
 describe("normaliseURL function", () => {
   test("should handle valid URLs without throwing errors", () => {
-    expect(normaliseURL("https://blog.boot.dev/path/")).not.toBeNull();
+    const validUrl = "https://blog.boot.dev/path/";
+    expect(normaliseURL(validUrl)).not.toBeNull();
   });
 
   test("should handle invalid URLs by returning null", () => {
@@ -21,29 +22,26 @@ describe("normaliseURL function", () => {
 
 describe("getURLsFromHTML function", () => {
   test("should append baseUrl to relative links", () => {
-    expect(
-      getURLsFromHTML("<a href='/path'>Link</a>", "https://blog.boot.dev"),
-    ).toContain("https://blog.boot.dev/path");
-    expect(
-      getURLsFromHTML("<a href='/path'>Link</a>", "https://blog.boot.dev"),
-    ).toHaveLength(1);
+    const linkHtml = "<a href='/path'>Link</a>";
+    const baseUrl = "https://blog.boot.dev";
+    expect(getURLsFromHTML(linkHtml, baseUrl)).toContain(
+      "https://blog.boot.dev/path",
+    );
+    expect(getURLsFromHTML(linkHtml, baseUrl)).toHaveLength(1);
   });
 
   test("should return an array of links", () => {
-    expect(
-      getURLsFromHTML(
-        "<a href='/path'>Link</a><a href='/path1'>Link1</a><a href='/path2'>Link2</a>",
-        "https://blog.boot.dev",
-      ),
-    ).toHaveLength(3);
+    const multipleLinksHtml =
+      "<a href='/path'>Link</a><a href='/path1'>Link1</a><a href='/path2'>Link2</a>";
+    const baseUrl = "https://blog.boot.dev";
+    expect(getURLsFromHTML(multipleLinksHtml, baseUrl)).toHaveLength(3);
   });
 
   test("should not modify absolute links", () => {
-    expect(
-      getURLsFromHTML(
-        "<a href='https://www.google.com/path'>Link</a>",
-        "https://blog.boot.dev",
-      ),
-    ).toContain("https://www.google.com/path");
+    const absoluteLinkHtml = "<a href='https://www.google.com/path'>Link</a>";
+    const baseUrl = "https://blog.boot.dev";
+    expect(getURLsFromHTML(absoluteLinkHtml, baseUrl)).toContain(
+      "https://www.google.com/path",
+    );
   });
 });
