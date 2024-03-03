@@ -1,9 +1,15 @@
-import { normaliseURL } from "./crawl";
+import { normaliseURL, getURLsFromHTML } from "./crawl";
 
 normaliseURL("https://blog.boot.dev/path/");
-normaliseURL("https://blog.boot.dev/path");
-normaliseURL("http://blog.boot.dev/path/");
-normaliseURL("http://blog.boot.dev/path");
-normaliseURL("http://blog.boot.dev:8080/path");
-normaliseURL("http://blog.boot.dev/path?sort=asc");
-normaliseURL("3og");
+
+getURLsFromHTML(
+  `
+  <html>
+      <body>
+          <a href="https://blog.boot.dev"><span>Go to Boot.dev</span></a>
+          <a href="/path"><span>Go to Boot.dev</span></a>
+      </body>
+  </html>
+`,
+  "https://blog.boot.dev",
+);

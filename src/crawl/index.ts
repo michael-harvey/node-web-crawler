@@ -1,3 +1,5 @@
+import { JSDOM } from "jsdom";
+
 export function normaliseURL(url: string) {
   try {
     const newUrl = new URL(url);
@@ -11,4 +13,19 @@ export function normaliseURL(url: string) {
     console.log("Invalid URL");
     return null;
   }
+}
+
+export function getURLsFromHTML(htmlBody: string, baseURL: string) {
+  const { window } = new JSDOM(htmlBody, {
+    url: baseURL,
+  });
+
+  const anchors = window.document.querySelectorAll("a");
+  const anchorUrls: string[] = [];
+
+  anchors.forEach((anchor) => {
+    anchorUrls.push(anchor.href);
+  });
+
+  return anchorUrls;
 }
