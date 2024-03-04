@@ -1,4 +1,5 @@
 import { JSDOM } from "jsdom";
+import chalk from "chalk";
 
 export function normaliseURL(url: string) {
   try {
@@ -9,7 +10,7 @@ export function normaliseURL(url: string) {
       : newUrl.pathname;
     return newUrl.hostname + normalisedPath;
   } catch {
-    console.log("Invalid URL");
+    console.error(chalk.red("Invalid URL"));
     return null;
   }
 }
@@ -62,19 +63,21 @@ async function fetchHtml(url: string) {
     const response = await fetch(url);
 
     if (!response.ok) {
-      console.error(`Target url: ${url} returned a ${response.status} code`);
+      console.error(
+        chalk.red(`Target url: ${url} returned a ${response.status} code`),
+      );
       return;
     }
 
     const contentType = response.headers.get("content-type");
 
     if (!contentType?.includes("text/html")) {
-      console.error("Response content-type is not valid html");
+      console.error(chalk.red("Response content-type is not text/html", url));
       return;
     }
 
     return await response.text();
   } catch (error) {
-    console.log(`Invalid url: ${error}`);
+    console.error(chalk.red(`Invalid url: ${error}`));
   }
 }
