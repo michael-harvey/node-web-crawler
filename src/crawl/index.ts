@@ -9,8 +9,8 @@ export function normaliseURL(url: string) {
       ? newUrl.pathname.slice(0, -1)
       : newUrl.pathname;
     return newUrl.hostname + normalisedPath;
-  } catch {
-    console.error(chalk.red("Invalid URL"));
+  } catch (error) {
+    console.error(chalk.red("Invalid URL", error));
     return null;
   }
 }
@@ -51,9 +51,9 @@ export async function crawlPage(
   const html = await fetchHtml(currentUrl);
   const links = getURLsFromHTML(html!, baseUrl);
 
-  links.forEach((link) => {
-    crawlPage(baseUrl, link, pages);
-  });
+  for (let i = 0; i < links.length; i++) {
+    await crawlPage(baseUrl, links[i], pages);
+  }
 
   return pages;
 }
@@ -72,7 +72,9 @@ async function fetchHtml(url: string) {
     const contentType = response.headers.get("content-type");
 
     if (!contentType?.includes("text/html")) {
-      console.error(chalk.red("Response content-type is not text/html", url));
+      console.error(
+        chalk.red(`Skipping ${url}, content-type is not text/html`),
+      );
       return;
     }
 

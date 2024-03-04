@@ -4,7 +4,6 @@ import { printReport } from "./report";
 
 async function main() {
   const args = process.argv;
-  console.log(args.length);
 
   if (args.length < 3) {
     console.error(
@@ -20,12 +19,17 @@ async function main() {
 
   const baseUrl = args[2];
 
-  console.log(chalk.green(`Crawling started on URL: ${baseUrl}`));
+  const t0 = performance.now();
+  console.log(chalk.green(`\nCrawling started on URL: ${baseUrl}`));
 
   const pages = await crawlPage(baseUrl, baseUrl, {});
 
+  const t1 = performance.now();
+  const message = `Crawling completed in ${Math.round(t1 - t0)} milliseconds. ${Object.keys(pages).length} unique pages found.`;
+  console.log(chalk.green(message));
+
   if (!pages) {
-    console.error(chalk.red("Crawling finished. No links found."));
+    console.error(chalk.red("0 page links found."));
     process.exit();
   }
 
