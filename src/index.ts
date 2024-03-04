@@ -1,6 +1,6 @@
-// import { normaliseURL, getURLsFromHTML } from "./crawl";
+import { crawlPage } from "./crawl";
 
-function main() {
+async function main() {
   const args = process.argv;
   console.log(args.length);
 
@@ -14,9 +14,12 @@ function main() {
     process.exit();
   }
 
-  const targetUrl = args[2];
+  const baseUrl = args[2];
 
-  console.log(`Crawling started on URL: ${targetUrl}`);
+  console.log(`Crawling started on URL: ${baseUrl}`);
+
+  const pages = await crawlPage(baseUrl, baseUrl, {});
+  console.log(pages);
 }
 
 main();
